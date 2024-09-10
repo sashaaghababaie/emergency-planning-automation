@@ -1,11 +1,57 @@
 import * as Boundry from "@/scripts/boundry";
 import * as Program from "@/scripts/program";
-import * as ProgramServer from "@/api/program-server";
 import * as Generate from "@/scripts/generate";
 import * as Transform from "@/scripts/transform";
 import * as ZONING from "@/scripts/zoning";
 import { Grid } from "@/scripts/grid";
 import { solve_algorythm_a } from "@/scripts/solver_a";
+//import { async_solve_algorythm_a } from "@/scripts/async-solver_a";
+
+export function asyncResolveHospital(
+  _config,
+  _boundry,
+  _setter = false,
+  _program = false
+) {
+  const boundry = Boundry.createBoundry(_boundry);
+
+  // let program = _program ? _program : await ProgramServer.initBaseProgram();
+  let program = _program ? _program : false;
+
+  const userProgram = Program.createNewProgramBasedOnBoundry(program, boundry);
+
+  const zones = Program.getZones(userProgram);
+
+  const availableArrangements = Generate.all(zones);
+  if (_setter) {
+    _setter([{ message: "All zones generated successfully", type: "success" }]);
+  }
+
+  const adjustedAvailableArrangemanet = adjustAllToGrid(
+    availableArrangements,
+    _config
+  );
+
+  const adjustedVirtualAvailableArrangemanet = createAdjustedVirtualZone(
+    adjustedAvailableArrangemanet
+  );
+
+  if (_setter) _setter([{ message: "Starting solver...", type: "action" }]);
+
+  const args = [adjustedVirtualAvailableArrangemanet, boundry, _config];
+  // const asyncSolver = async (_step, _placed_arr) =>
+  //   await async_solve_algorythm_a(
+  //     adjustedVirtualAvailableArrangemanet,
+  //     grid,
+  //     boundry,
+  //     _config,
+  //     _step,
+  //     _setter,
+  //     _placed_arr
+  //   );
+
+  return { boundry, args };
+}
 
 export function resolveHospital(
   _config,
@@ -25,7 +71,7 @@ export function resolveHospital(
 
   const availableArrangements = Generate.all(zones);
   if (_setter) {
-    _setter("All zones generated successfully");
+    _setter(["All zones generated successfully"]);
   }
 
   const adjustedAvailableArrangemanet = adjustAllToGrid(
@@ -37,9 +83,8 @@ export function resolveHospital(
     adjustedAvailableArrangemanet
   );
 
-  if (_setter) {
-    _setter("Start solver...");
-  }
+  if (_setter) _setter(["Start solver..."]);
+
   const result = solve_algorythm_a(
     adjustedVirtualAvailableArrangemanet,
     grid,

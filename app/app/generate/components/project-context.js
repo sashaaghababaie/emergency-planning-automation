@@ -18,6 +18,7 @@ export default function ProjectProvider({ children }) {
     },
   });
 
+  const [result, setResult] = useState(null);
   const [refProgram, setRefProgram] = useState();
   const [program, setProgram] = useState();
 
@@ -58,6 +59,8 @@ export default function ProjectProvider({ children }) {
             program,
             setProgram,
             refProgram,
+            result,
+            setResult,
           }}
         >
           {children}

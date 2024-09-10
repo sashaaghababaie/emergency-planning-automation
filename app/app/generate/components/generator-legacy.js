@@ -7,7 +7,7 @@ import PreviewManager from "@/components/preview-wrapper";
 
 export default function Generator() {
   const { config, boundry, program } = useContext(ProjectContext);
-  
+
   const [log, setLog] = useState([]);
   const [showLog, setShowLog] = useState(true);
   const [result, setResult] = useState();
@@ -35,7 +35,6 @@ export default function Generator() {
   const logSetter = (msg) => setLog((prev) => [...prev, msg]);
 
   function handleResolveHospital() {
-    logSetter(Math.random());
     try {
       const res = resolveHospital(config, boundry, steps, logSetter, program);
       setResult(res);
@@ -79,10 +78,37 @@ export default function Generator() {
                 ))}
             </div>
           )}
-          <button onClick={() => handleResolveHospital()}>Generate</button>
-          {result && <PreviewManager data={result} />}
+          <button
+            className="w-full p-2 text-lg bg-blue-700 text-white rounded-lg my-4 transition duration-200 hover:bg-blue-600"
+            onClick={() => handleResolveHospital()}
+          >
+            Generate
+          </button>
+          {result && <PreviewManager data={{ ...result, grid: config.gird }} />}
         </div>
       )}
     </div>
   );
 }
+
+const Logger = ({ log }) => {
+  return (
+    <div className="overflow-y-auto p-2 border rounded-lg h-48">
+      {log.length > 0 &&
+        log.map((l, i) => (
+          <p
+            className={`${
+              l.type === "error"
+                ? "text-rose-500"
+                : log.type === "success"
+                ? "text-emerald-500"
+                : "text-black"
+            } text-xs`}
+            key={`log_${i}`}
+          >
+            {l.message}
+          </p>
+        ))}
+    </div>
+  );
+};

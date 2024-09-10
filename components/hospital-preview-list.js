@@ -2,7 +2,7 @@ import { NextReactP5Wrapper } from "@p5-wrapper/next";
 import * as DRAW from "@/scripts/draw";
 import * as Boundry from "@/scripts/boundry";
 
-export default function HospitalPreview({ data }) {
+export default function HospitalPreviewList({ data }) {
   return (
     <div id="canvas">
       <NextReactP5Wrapper sketch={sketch} />
@@ -10,15 +10,17 @@ export default function HospitalPreview({ data }) {
   );
 
   function sketch(p) {
-    const { boundry, design, showGrid, grid, scale } = data;
+    const { boundry, design, showGrid, grid,scale } = data;
     p.setup = () => {
       p.noLoop();
-      p.createCanvas(600 * scale, 600 * scale);
+      p.createCanvas(300 * scale, 300 * scale);
       p.background(250);
 
       p.translate(50, 50);
       p.strokeWeight(0.1);
-      p.scale(10 * scale);
+      p.scale(5 * scale);
+
+
 
       Boundry.draw(p, boundry);
 

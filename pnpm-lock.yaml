@@ -29,6 +29,9 @@ dependencies:
   react-p5-wrapper:
     specifier: ^4.1.2
     version: 4.1.2(react-dom@18.3.1)(react@18.3.1)
+  react-spinners:
+    specifier: ^0.14.1
+    version: 0.14.1(react-dom@18.3.1)(react@18.3.1)
 
 devDependencies:
   postcss:
@@ -812,6 +815,16 @@ packages:
     dependencies:
       microdiff: 1.4.0
       p5: 1.10.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    dev: false
+
+  /react-spinners@0.14.1(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-2Izq+qgQ08HTofCVEdcAQCXFEYfqTDdfeDQJeo/HHQiQJD4imOicNLhkfN2eh1NYEWVOX4D9ok2lhuDB0z3Aag==}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     dev: false

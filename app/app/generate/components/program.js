@@ -51,8 +51,8 @@ export default function Program() {
   };
 
   const uncheckAll = () => {
-    setCheckeds([]);
-    setProgram({});
+    setCheckeds(['0', '14']);
+    setProgram({ 0: refProgram[0], 14: refProgram[14] });
   };
 
   return (
@@ -73,7 +73,7 @@ export default function Program() {
             Uncheck All
           </button>
         </div>
-        <div className="flex border-b-[0.5px] border-black mb-2">
+        <div className="flex border-b-[0.5px] text-indigo-500 border-black/50 mb-2 mt-6">
           <h2 className="basis-1/3">Space name</h2>
           <h2 className="basis-1/2">Quantity</h2>
         </div>
@@ -97,10 +97,11 @@ const ListItem = ({ data, setter, k, checked, handleCheck }) => {
     <div className="flex my-1">
       <div className="basis-1/3">
         <input
+          disabled={k == 0 || k == 14}
           value={k}
           type="checkbox"
           checked={checked}
-          className="mr-2 accent-black"
+          className="mr-2 accent-indigo-600 disabled:accent-red-100"
           onChange={handleCheck}
         />
         {data.space_name}
@@ -108,7 +109,7 @@ const ListItem = ({ data, setter, k, checked, handleCheck }) => {
       <div className="basis-1/2">
         <input
           disabled={!checked}
-          className="w-12 border text-center rounded-lg disabled:bg-zinc-200 disabled:text-zinc-400"
+          className="w-12 leading-tight border-[1px] border-indigo-300 bg-indigo-50 text-center rounded-md disabled:bg-zinc-200 disabled:text-zinc-400 disabled:border-none"
           value={data.quantity}
           onChange={(e) => setter(k, e)}
         />

@@ -92,7 +92,6 @@ const filterSpace = (_program, callback) => {
  * @returns {Program}
  */
 export function createNewProgramBasedOnBoundry(_program, _boundry) {
-  console.log(_program)
   let refProgramArea = getProgramArea(_program);
   const pureArea = _boundry.area * 0.75;
 

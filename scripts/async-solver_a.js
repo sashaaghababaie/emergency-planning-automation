@@ -1,9 +1,10 @@
+"use server";
 import * as PLACING from "@/scripts/placing";
 import * as HELPERS from "@/scripts/helpers";
+import { Grid } from "@/scripts/grid";
 
 const defaultTypes = ["aligned", "aligned-edge", "crossed", "crossed-edge"];
 
-// const steps = [1,2,3,4];
 const zone_props = {
   1: { zone_adj: ["0"], ensureNaturalLight: false },
   2: { zone_adj: ["0"], ensureNaturalLight: false },
@@ -34,90 +35,95 @@ const zone_props = {
  * Object.<string, {os_h: Array<VirtualZone>, os_v: Array<VirtualZone>}>} _availableArrangements
  * @param {Grid} _grid
  * @param {Boundry} _boundry
+ * @param {Array<any>} _placed_arr
  */
-export const solve_algorythm_a = (
+export const async_solve_algorythm_a = async (
   _availableArrangements,
-  _grid,
   _boundry,
   config,
-  steps,
-  _setter
+  _step,
+  _placed_arr
 ) => {
-  let placed = {};
+  const _grid = new Grid(_boundry, config.gird.module.x, config.gird.module.y);
+  // return new Promise((resolve, reject) => {
+  let placed_arr = !_placed_arr || _step === 0 ? [] : _placed_arr;
+  let log = [];
+  if (_step === 0) {
+    let placed = {};
 
-  placed["0"] = placeInpEnt(_availableArrangements, _boundry, _grid);
-  placed["14"] = placeOutpEnt(_availableArrangements, _boundry, _grid);
+    placed["0"] = placeInpEnt(_availableArrangements, _boundry, _grid);
+    placed["14"] = placeOutpEnt(_availableArrangements, _boundry, _grid);
 
-  let placed_arr = [];
+    placed_arr.push(placed);
 
-  placed_arr.push(placed);
-
-  for (let i = 0; i < steps.length; i++) {
-    const availableArrangement = _availableArrangements[steps[i].toString()];
-    if (_setter) {
-      _setter(`current step: ${steps[i]}`);
-    }
-    console.log(`current step: ${steps[i]}`);
-
-    if (steps[i] === 1) {
-      let _placed_arr = [];
-
-      placed_arr.forEach((_placed) => {
-        const available_for_adj = getAvailableAdjByZoneIds(_placed, ["0"]);
-        available_for_adj.forEach((_adj) => {
-          const args = [
-            availableArrangement,
-            _adj,
-            _grid,
-            _boundry,
-            _placed,
-            "aligned",
-            "best-fit",
-          ];
-
-          //@ts-ignore
-          const options = PLACING.tryPlacing(...args);
-
-          if (options.length) {
-            options.forEach((o) => {
-              if (o.hasOwnProperty("usedCorridor")) {
-                const _new_placed = { ..._placed };
-                _new_placed[steps[i].toString()] = o;
-                _placed_arr.push(_new_placed);
-              }
-            });
-          }
-        });
-      });
-
-      if (_setter) {
-        _setter(`options length at ${steps[i]}: ${_placed_arr.length}`);
-      }
-
-      console.log(`options length at ${steps[i]}: ${_placed_arr.length}`);
-      placed_arr = _placed_arr;
-    }
-
-    if (steps[i] !== 0 && steps[i] !== 1 && steps[i] !== 14) {
-      const _placed_arr = solveStep({
-        step: steps[i],
-        availableArrangement,
-        placed_arr,
-        defaultTypes,
-        grid: _grid,
-        boundry: _boundry,
-        zone_props: zone_props[steps[i]],
-        config,
-        _setter,
-      });
-
-      if (_placed_arr.length === 0) return placed_arr;
-
-      placed_arr = _placed_arr;
-    }
+    log = [
+      { message: `current step: ${_step}`, type: "info" },
+      { message: "Entrances placed succesfully", type: "success" },
+    ];
+    log.forEach((l) => console.log(l.message));
+    return { placed_arr, log };
   }
 
-  return placed_arr;
+  const availableArrangement = _availableArrangements[_step.toString()];
+  if (_step === 1) {
+    let _placed_arr = [];
+
+    placed_arr.forEach((_placed) => {
+      const available_for_adj = getAvailableAdjByZoneIds(_placed, ["0"]);
+      available_for_adj.forEach((_adj) => {
+        const args = [
+          availableArrangement,
+          _adj,
+          _grid,
+          _boundry,
+          _placed,
+          "aligned",
+          "best-fit",
+        ];
+
+        //@ts-ignore
+        const options = PLACING.tryPlacing(...args);
+
+        if (options.length) {
+          options.forEach((o) => {
+            if (o.hasOwnProperty("usedCorridor")) {
+              const _new_placed = { ..._placed };
+              _new_placed[_step.toString()] = o;
+              _placed_arr.push(_new_placed);
+            }
+          });
+        }
+      });
+    });
+
+    log = [
+      {
+        message: `options length at ${_step}: ${_placed_arr.length}`,
+        type: "info",
+      },
+    ];
+    log.forEach((l) => console.log(l.message));
+    placed_arr = _placed_arr;
+  }
+
+  if (_step !== 0 && _step !== 1 && _step !== 14) {
+    const { _placed_arr, log: _log } = solveStep({
+      step: _step,
+      availableArrangement,
+      placed_arr,
+      defaultTypes,
+      grid: _grid,
+      boundry: _boundry,
+      zone_props: zone_props[_step],
+      config,
+    });
+
+    if (_placed_arr.length === 0) return placed_arr;
+    log = _log;
+    placed_arr = _placed_arr;
+  }
+
+  return { placed_arr, log };
 };
 
 /**
@@ -149,7 +155,6 @@ function solveStep({
   boundry,
   zone_props,
   config,
-  _setter,
 }) {
   let _placed_arr = [];
   let edited_availableArrangement = [];
@@ -174,10 +179,6 @@ function solveStep({
     placed_arr.forEach((_placed, j) => {
       if (j % 10000 == 0) {
         console.log(`iteration: ${j}`);
-
-        if (_setter) {
-          _setter(`iteration: ${j}`);
-        }
       }
       const available_for_adj = getAvailableAdjByZoneIds(
         _placed,
@@ -212,11 +213,11 @@ function solveStep({
       });
     });
   });
-
-  if (_setter) {
-    _setter(`options length at ${step}: ${_placed_arr.length}`);
-  }
-  console.log(`options length at ${step}: ${_placed_arr.length}`);
+  const log = [];
+  log.push({
+    message: `options length at ${step}: ${_placed_arr.length}`,
+    type: "info",
+  });
 
   if (_placed_arr.length === 0) return [];
 
@@ -227,18 +228,15 @@ function solveStep({
   ) {
     _placed_arr = HELPERS.sampling("random", _placed_arr, config.sampling.MAX);
 
-    if (_setter) {
-      _setter(
-        `options length after sampling at ${step}: ${_placed_arr.length}`
-      );
-    }
+    log.push({
+      message: `options length after sampling at ${step}: ${_placed_arr.length}`,
+      type: "info",
+    });
 
-    console.log(
-      `options length after sampling at ${step}: ${_placed_arr.length}`
-    );
+    log.forEach((l) => console.log(l.message));
   }
 
-  return _placed_arr;
+  return { _placed_arr: _placed_arr, log };
 }
 
 /**

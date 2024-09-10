@@ -36,14 +36,14 @@ export default function Config() {
       <h1 className="font-bold border-b-[1px] border-black">Configuration</h1>
       <div className="p-2">
         <section className="mt-2">
-          <h2 className="border-b-[0.5px] border-black">Grid</h2>
+          <h2 className="border-b-[0.5px] text-indigo-500 border-black/50">Grid</h2>
           <div className="flex gap-4 text-sm mt-2">
             <div className="flex gap-2">
               <label>Module Width</label>
               <input
                 onChange={(e) => setConfigGrid("x", e.target.value)}
                 value={config.gird.module.x}
-                className="px-2 leading-tight border-[1px] border-black rounded-md w-[50px]"
+                className="text-center px-2 leading-tight border-[1px] border-indigo-300 bg-indigo-50 rounded-md w-[50px]"
               />
             </div>
             <div className="flex gap-2">
@@ -51,13 +51,13 @@ export default function Config() {
               <input
                 onChange={(e) => setConfigGrid("y", e.target.value)}
                 value={config.gird.module.y}
-                className="px-2 leading-tight border-[1px] border-black rounded-md w-[50px]"
+                className="text-center px-2 leading-tight border-[1px] border-indigo-300 bg-indigo-50 rounded-md w-[50px]"
               />
             </div>
           </div>
         </section>
         <section className="mt-6">
-          <h2 className="border-b-[0.5px] border-black">Sampling</h2>
+          <h2 className="border-b-[0.5px] text-indigo-500 border-black/50">Sampling</h2>
           <div className="text-sm mt-2">
             <div className="flex gap-2">
               <label>Use sampling</label>
@@ -65,15 +65,15 @@ export default function Config() {
                 type="checkbox"
                 checked={config.sampling.available}
                 onChange={setUseSampling}
-                className="accent-black"
+                className="accent-indigo-600"
               />
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 mt-1">
               <label>MAX sampling</label>
               <input
                 onChange={setMaxSampling}
                 value={config.sampling.MAX}
-                className="px-2 leading-tight border-[1px] border-black rounded-md w-[100px]"
+                className="text-center px-2 leading-tight border-[1px] border-indigo-300 bg-indigo-50 rounded-md w-[100px]"
               />
             </div>
           </div>

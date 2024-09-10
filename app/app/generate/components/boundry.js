@@ -58,7 +58,7 @@ export default function Boundry() {
       <div className="flex justify-center">
         <button
           disabled={boundry.width === 0}
-          className="text-md p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-400 duration-200 transition disabled:bg-zinc-400"
+          className="text-md p-2 bg-blue-700 text-white rounded-lg hover:bg-blue-400 duration-200 transition disabled:bg-zinc-400"
           onClick={checkBoundry}
         >
           Check boundry
