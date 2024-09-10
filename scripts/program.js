@@ -211,9 +211,9 @@ export function createNewProgramBasedOnBoundry(_program, _boundry) {
         userAreaConsumed + area * other[i].quantity
       );
 
-      if (HELPERS.rounded(userAreaConsumed) > pureArea + 0.05) {
-        throw new Error("cannot fit");
-      }
+      // if (HELPERS.rounded(userAreaConsumed) > pureArea + 0.05) {
+      //   throw new Error("cannot fit");
+      // }
 
       /** @type {Space} */
       const newSpace = {

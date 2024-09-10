@@ -42,13 +42,14 @@ export const async_solve_algorythm_a = async (
   _boundry,
   config,
   _step,
-  _placed_arr
+  _placed_arr,
+  _isEnd = false
 ) => {
   const _grid = new Grid(_boundry, config.gird.module.x, config.gird.module.y);
   // return new Promise((resolve, reject) => {
   let placed_arr = !_placed_arr || _step === 0 ? [] : _placed_arr;
   let log = [];
-  if (_step === 0) {
+  if (_step == 0) {
     let placed = {};
 
     placed["0"] = placeInpEnt(_availableArrangements, _boundry, _grid);
@@ -62,12 +63,9 @@ export const async_solve_algorythm_a = async (
     ];
     log.forEach((l) => console.log(l.message));
     return { placed_arr, log };
-  }
-
-  const availableArrangement = _availableArrangements[_step.toString()];
-  if (_step === 1) {
+  } else if (_step == 1) {
+    const availableArrangement = _availableArrangements[_step.toString()];
     let _placed_arr = [];
-
     placed_arr.forEach((_placed) => {
       const available_for_adj = getAvailableAdjByZoneIds(_placed, ["0"]);
       available_for_adj.forEach((_adj) => {
@@ -104,9 +102,9 @@ export const async_solve_algorythm_a = async (
     ];
     log.forEach((l) => console.log(l.message));
     placed_arr = _placed_arr;
-  }
+  } else if (_step > 1 && _step != 14) {
+    const availableArrangement = _availableArrangements[_step.toString()];
 
-  if (_step !== 0 && _step !== 1 && _step !== 14) {
     const { _placed_arr, log: _log } = solveStep({
       step: _step,
       availableArrangement,
@@ -116,9 +114,10 @@ export const async_solve_algorythm_a = async (
       boundry: _boundry,
       zone_props: zone_props[_step],
       config,
+      _isEnd,
     });
 
-    if (_placed_arr.length === 0) return placed_arr;
+    if (_placed_arr.length === 0) return { placed_arr: [], log };
     log = _log;
     placed_arr = _placed_arr;
   }
@@ -155,6 +154,7 @@ function solveStep({
   boundry,
   zone_props,
   config,
+  _isEnd = false,
 }) {
   let _placed_arr = [];
   let edited_availableArrangement = [];
@@ -214,17 +214,18 @@ function solveStep({
     });
   });
   const log = [];
+
   log.push({
     message: `options length at ${step}: ${_placed_arr.length}`,
     type: "info",
   });
 
-  if (_placed_arr.length === 0) return [];
+  if (_placed_arr.length === 0) return { _placed_arr: [], log };
 
   if (
     config.sampling.available &&
     _placed_arr.length > config.sampling.MAX &&
-    step !== 16
+    !_isEnd
   ) {
     _placed_arr = HELPERS.sampling("random", _placed_arr, config.sampling.MAX);
 

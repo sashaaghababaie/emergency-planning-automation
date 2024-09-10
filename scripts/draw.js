@@ -1,35 +1,10 @@
+import { colors } from "./colors";
 /**
  *
  * @param {{createdSpaces: CSpace[], corridor?: {x:number, y:number, w:number, h:number}[], list1?: CSpace[], list2?:CSpace[]; usedCorridor?: 'vCor_1' | 'vCor_2' }} _createdZone
  */
 
-const colors = {
-  entrance: [231, 255, 199],
-  reception: [199, 250, 255],
-  common: [255, 243, 199],
-  outpatient: [255, 222, 199],
-  emergency_ent: [255, 199, 205],
-  operation: [239, 225, 255],
-  emergency: [225, 230, 255],
-  curing: [219, 233, 224],
-  service: [255, 255, 255],
-};
-
-export const zone = (p, _createdZone) => {
-  p.push();
-  {
-    p.stroke(0);
-    _createdZone.createdSpaces.forEach((s) => {
-      p.fill(colors[s.zone_name]);
-      p.rect(s.x, s.y, s.w, s.h);
-      // const name = getName(s, 7);
-      const name = getSpaceId(s);
-      p.textSize(1.5);
-      p.text(name, s.x + 0.2, s.y + 1.5);
-    });
-  }
-  p.pop();
-
+export const zone = (p, _createdZone, type, scale, legend = "") => {
   if (_createdZone.hasOwnProperty("usedCorridor")) {
     p.push();
     {
@@ -52,18 +27,42 @@ export const zone = (p, _createdZone) => {
     p.pop();
   }
   if (_createdZone.hasOwnProperty("available_for_adj")) {
-    if (_createdZone.createdSpaces[0].space_id == 0) {
-      return;
+    if (_createdZone.createdSpaces[0].space_id != 0) {
+      p.push();
+      {
+        p.fill(200, 200, 200, 255);
+        p.noStroke();
+        const s = _createdZone["available_for_adj"];
+        p.rect(s.x, s.y, s.w, s.h);
+      }
+      p.pop();
     }
-    p.push();
-    {
-      p.fill(200, 200, 200, 255);
-      p.noStroke();
-      const s = _createdZone["available_for_adj"];
-      p.rect(s.x, s.y, s.w, s.h);
-    }
-    p.pop();
   }
+  p.push();
+  {
+    p.stroke(0);
+    _createdZone.createdSpaces.forEach((s) => {
+      p.push();
+      p.fill(colors[s.zone_name]);
+
+      p.rect(s.x, s.y, s.w, s.h);
+      p.pop();
+      const name = type === "name" ? getName(s, 7) : getSpaceId(s);
+      p.textSize(
+        type === "legend" ? (scale < 1 ? 1 : 1.5 / scale) : 0.5 / scale
+      );
+      p.push();
+      if (legend === s.zone_name) {
+        p.fill(255, 0, 0);
+      } else {
+        p.fill(0);
+      }
+
+      p.text(name, s.x + 0.2, s.y + 1.5);
+      p.pop();
+    });
+  }
+  p.pop();
 };
 
 /**

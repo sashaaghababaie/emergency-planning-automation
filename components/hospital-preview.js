@@ -10,13 +10,13 @@ export default function HospitalPreview({ data }) {
   );
 
   function sketch(p) {
-    const { boundry, design, showGrid, grid, scale } = data;
+    const { boundry, design, showGrid, grid, scale, name, legend } = data;
     p.setup = () => {
       p.noLoop();
       p.createCanvas(600 * scale, 600 * scale);
       p.background(250);
 
-      p.translate(50, 50);
+      p.translate(30 * scale, 30 * scale);
       p.strokeWeight(0.1);
       p.scale(10 * scale);
 
@@ -35,8 +35,8 @@ export default function HospitalPreview({ data }) {
       })();
 
       drawing.push(design["0"], design["14"]);
-      console.log(drawing);
-      drawing.forEach((d) => DRAW.zone(p, d));
+
+      drawing.forEach((d) => DRAW.zone(p, d, name, scale, legend));
 
       if (showGrid) drawGrid(boundry, grid);
     };

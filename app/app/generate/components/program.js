@@ -7,7 +7,7 @@ export default function Program() {
   const { program, refProgram, setProgram } = useContext(ProjectContext);
 
   const setQuantity = (key, e) => {
-    const _program = { ...refProgram };
+    const _program = { ...program };
 
     if (!isNaN(Number(e.target.value))) {
       _program[key].quantity = Number(e.target.value);
@@ -51,7 +51,7 @@ export default function Program() {
   };
 
   const uncheckAll = () => {
-    setCheckeds(['0', '14']);
+    setCheckeds(["0", "14"]);
     setProgram({ 0: refProgram[0], 14: refProgram[14] });
   };
 

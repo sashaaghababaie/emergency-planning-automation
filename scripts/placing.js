@@ -181,9 +181,9 @@ export const alignedPlacing = (
     leaderboard.sort((a, b) => b.point - a.point);
     const maxPoint = leaderboard[0].point;
     const filtered = leaderboard.filter((l) => l.point === maxPoint);
+
     return filtered.map((f) => f.option);
   }
-
   return options;
 };
 

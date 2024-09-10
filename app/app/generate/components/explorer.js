@@ -10,9 +10,10 @@ export default function Explore() {
       <h1 className="font-bold border-b-[1px] border-black">Explore</h1>
       {!result && (
         <p className="border border-rose-500 mt-2 rounded-lg p-2 text-rose-500 text-sm">
-          Please Generate first.
+          Please use 'Generate' to produce solutions first.
         </p>
       )}
+
       {result && <PreviewManager data={{ ...result, grid: config.gird }} />}
     </div>
   );
