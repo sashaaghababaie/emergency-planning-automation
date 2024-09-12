@@ -244,18 +244,26 @@ export default function Generator() {
             {!result && !error && (
               <button
                 disabled={start}
-                className="disabled:bg-zinc-300 w-[400px] justify-center items-center p-2 text-lg bg-blue-700 text-white rounded-lg my-4 flex gap-2 transition duration-200 hover:bg-blue-600"
+                className="disabled:bg-zinc-500 w-[400px] justify-center items-center p-2 text-lg bg-blue-700 text-white rounded-lg my-4 flex gap-2 transition duration-200 hover:bg-blue-600"
                 onClick={() => handleResolveHospital()}
               >
-                <p>Generate </p>{" "}
+                <p>{!start ? "Generate" : "Generating..."} </p>{" "}
                 <MoonLoader color={"#fff"} loading={start} size={20} />
               </button>
             )}
           </div>
           {start && (
-            <p className="text-sm text-blue-700 text-center">
-              Please do not change the tabs or close the window
-            </p>
+            <>
+              <p className="text-sm text-blue-700 text-center">
+                {currentState.step < 0
+                  ? 0
+                  : Math.floor((currentState.step / steps.length) * 100)}
+                %
+              </p>
+              <p className="text-sm text-blue-700 text-center">
+                Please do not change the tabs or close the window
+              </p>
+            </>
           )}
           {semiFinished && (
             <p className="text-blue-500 text-center">
@@ -277,7 +285,7 @@ export default function Generator() {
 
 const Logger = ({ log }) => {
   return (
-    <div className="overflow-y-auto p-2 border rounded-lg h-48">
+    <div className="overflow-y-auto p-2 border rounded-lg h-48 bg-white">
       {log.length > 0 &&
         log.map((l, i) => (
           <p

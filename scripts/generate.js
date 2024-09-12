@@ -1,5 +1,4 @@
-
-import * as CB from '@/scripts/cb-one-side'
+import * as CB from "@/scripts/cb-one-side";
 /**
  *
  * @param {Zone} zone
@@ -151,16 +150,16 @@ const curing = (zone) => {
       area_min: 60,
       area_max: 60,
     };
-    const _curing_two_side_3 = {
-      ...curing,
-      quantity: 1,
-      x_min: 2.1,
-      x_max: _quantity - 1,
-      y_min: 2.1,
-      y_max: _quantity - 1,
-      area_min: 2.1 * _quantity,
-      area_max: 2.1 * _quantity,
-    };
+    // const _curing_two_side_3 = {
+    //   ...curing,
+    //   quantity: 1,
+    //   x_min: 2.1,
+    //   x_max: _quantity - 1,
+    //   y_min: 2.1,
+    //   y_max: _quantity - 1,
+    //   area_min: 2.1 * _quantity,
+    //   area_max: 2.1 * _quantity,
+    // };
     const { os_h: os_h_two_side, os_v: os_v_two_side } = getAvailableZones([
       _curing_two_side_1,
       _curing_two_side_2,

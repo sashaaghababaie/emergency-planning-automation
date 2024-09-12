@@ -2,7 +2,7 @@
 
 export const StageWrapper = ({ children, setNextPage, setPrevPage }) => {
   return (
-    <div className="bg-white p-2 rounded-lg min-h-[500px] flex flex-col">
+    <div className="bg-white/70 p-2 rounded-lg min-h-[500px] flex flex-col">
       <div className="flex-auto">{children}</div>
       <div className="flex gap-8 justify-end">
         <button

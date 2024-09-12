@@ -9,6 +9,7 @@
  * @param {Point} _v
  */
 export const move = (_createdZone, _v) => {
+  const { zoneDir } = _createdZone;
   const createdSpaces = _createdZone.createdSpaces.map((s) => ({
     ...s,
     x: s.x + _v.x,
@@ -34,10 +35,10 @@ export const move = (_createdZone, _v) => {
       x: _createdZone.vCor_2.x + _v.x,
       y: _createdZone.vCor_2.y + _v.y,
     };
-    return { createdSpaces, corridor, v_Cor1, v_Cor2 };
+    return { createdSpaces, corridor, v_Cor1, v_Cor2, zoneDir };
   }
 
-  return { createdSpaces, corridor };
+  return { createdSpaces, corridor, zoneDir };
 };
 
 /**
@@ -50,6 +51,7 @@ export const move = (_createdZone, _v) => {
  * @param {Point} _point
  */
 export const moveTo = (_createdZone, _point) => {
+  const { zoneDir } = _createdZone;
   let anchor = getZoneAnchor(_createdZone);
 
   const createdSpaces = _createdZone.createdSpaces.map((s) => ({
@@ -77,9 +79,9 @@ export const moveTo = (_createdZone, _point) => {
       x: _createdZone.vCor_2.x - anchor.x + _point.x,
       y: _createdZone.vCor_2.y - anchor.y + _point.y,
     };
-    return { createdSpaces, corridor, vCor_1, vCor_2 };
+    return { createdSpaces, corridor, vCor_1, vCor_2, zoneDir };
   }
-  return { createdSpaces, corridor };
+  return { createdSpaces, corridor, zoneDir };
 };
 
 /**

@@ -5,7 +5,7 @@ import * as Transform from "@/scripts/transform";
 import * as ZONING from "@/scripts/zoning";
 import { Grid } from "@/scripts/grid";
 import { solve_algorythm_a } from "@/scripts/solver_a";
-//import { async_solve_algorythm_a } from "@/scripts/async-solver_a";
+
 
 export function asyncResolveHospital(
   _config,
@@ -39,16 +39,6 @@ export function asyncResolveHospital(
   if (_setter) _setter([{ message: "Starting solver...", type: "action" }]);
 
   const args = [adjustedVirtualAvailableArrangemanet, boundry, _config];
-  // const asyncSolver = async (_step, _placed_arr) =>
-  //   await async_solve_algorythm_a(
-  //     adjustedVirtualAvailableArrangemanet,
-  //     grid,
-  //     boundry,
-  //     _config,
-  //     _step,
-  //     _setter,
-  //     _placed_arr
-  //   );
 
   return { boundry, args };
 }
@@ -195,6 +185,7 @@ function createAdjustedVirtualZone(adjustedAvailableArrangemanet) {
           3,
           "H"
         );
+
         const virtual_adjusted_os_v = ZONING.generateVirtualZone(
           a["os_v"],
           3,
@@ -228,5 +219,6 @@ function createAdjustedVirtualZone(adjustedAvailableArrangemanet) {
         virtual_adjusted_os_v;
     }
   }
+
   return adjustedVirtualAvailableArrangemanet;
 }

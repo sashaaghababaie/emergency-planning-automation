@@ -4,7 +4,7 @@ import * as Boundry from "@/scripts/boundry";
 
 export default function HospitalPreviewList({ data }) {
   return (
-    <div id="canvas">
+    <div id="canvas" className="p-2 bg-[rgb(250,250,250)] rounded-lg border">
       <NextReactP5Wrapper sketch={sketch} />
     </div>
   );
@@ -12,15 +12,15 @@ export default function HospitalPreviewList({ data }) {
   function sketch(p) {
     const { boundry, design, showGrid, grid, scale } = data;
     p.setup = () => {
+      const realHeight = boundry.height * 5 * scale + 40;
+      const realWidth = boundry.width * 5 * scale + 40;
       p.noLoop();
-      p.createCanvas(300 * scale, 300 * scale);
+      p.createCanvas(realWidth, realHeight);
       p.background(250);
 
-      p.translate(30 * scale, 30 * scale);
+      p.translate(20, 20);
       p.strokeWeight(0.1);
       p.scale(5 * scale);
-
-      Boundry.draw(p, boundry);
 
       const keys = Object.keys(design);
       // const drawing = keys.map((key) => design[key]);
@@ -36,7 +36,8 @@ export default function HospitalPreviewList({ data }) {
 
       drawing.push(design["0"], design["14"]);
 
-      drawing.forEach((d) => DRAW.zone(p, d, "legend", scale));
+      drawing.forEach((d) => DRAW.zone(p, d, "legend", scale, "", false));
+      Boundry.draw(p, boundry);
 
       if (showGrid) drawGrid(boundry, grid);
     };

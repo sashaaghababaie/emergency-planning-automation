@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HospitalPreview from "@/components/hospital-preview";
 import HospitalPreviewList from "./hospital-preview-list";
 import { colors } from "@/scripts/colors";
@@ -34,6 +34,13 @@ export default function PreviewManager({ data }) {
   const [legend, setLegend] = useState("");
   const [selectedFilter, setSelectedFilter] = useState();
 
+  const [save, setSave] = useState(false);
+
+  const removeFromList = (_i) => {
+    const newList = [...list].filter((l, i) => i !== _i);
+    setList(newList);
+  };
+
   const runFilter = () => {
     if (selectedFilter === "Reset") {
       setIndex(0);
@@ -59,6 +66,11 @@ export default function PreviewManager({ data }) {
     }
     setShowDrawer(false);
   };
+
+  useEffect(() => {
+    if (!save) return;
+    setSave(false);
+  }, [save]);
 
   const setInputVal = (e) => {
     if (!isNaN(Number(e.target.value))) {
@@ -158,7 +170,7 @@ export default function PreviewManager({ data }) {
         </div>
       </div>
 
-      <h2 className="mt-10 border-b-[0.5px] text-indigo-500 border-black/50">
+      <h2 className="mt-6 border-b-[0.5px] text-indigo-500 border-black/50">
         Explore
       </h2>
       <div className="flex mt-4">
@@ -220,6 +232,12 @@ export default function PreviewManager({ data }) {
             >
               Filter
             </button>
+            <button
+              className="py-1 w-20 px-2 rounded-md bg-emerald-500 hover:bg-emerald-300 text-white"
+              onClick={() => setSave(true)}
+            >
+              Save JPG
+            </button>
           </div>
           <div className="flex gap-2 text-xs items-center h-12 py-2">
             <input
@@ -256,7 +274,9 @@ export default function PreviewManager({ data }) {
             {Object.values(colors).map((c, i) => (
               <div
                 key={`leg_${i}`}
-                onClick={() => setLegend(colorKeys[i])}
+                onClick={() =>
+                  setLegend(legend === colorKeys[i] ? "" : colorKeys[i])
+                }
                 className={`flex gap-1 w-28 p-1 rounded-lg cursor-pointer ${
                   legend === colorKeys[i]
                     ? "bg-indigo-200"
@@ -279,17 +299,22 @@ export default function PreviewManager({ data }) {
             </p>
           )}
           {filterd.length > 0 && (
-            <HospitalPreview
-              data={{
-                showGrid,
-                boundry: data.boundry,
-                result: filterd,
-                scale,
-                legend,
-                name: spaceNames,
-                design: filterd[index],
-              }}
-            />
+            <div className="flex justify-center">
+              <HospitalPreview
+                data={{
+                  index,
+                  saving: save,
+                  grid: data.grid,
+                  showGrid,
+                  boundry: data.boundry,
+                  result: filterd,
+                  scale,
+                  legend,
+                  name: spaceNames,
+                  design: filterd[index],
+                }}
+              />
+            </div>
           )}
         </>
       )}
@@ -301,7 +326,15 @@ export default function PreviewManager({ data }) {
           {list.length > 0 &&
             list.map((l, i) => (
               <div key={`alt-${i}`}>
-                <p className="text-xs">No. {l.index}</p>
+                <p className="text-xs flex gap-2">
+                  <span
+                    className="text-rose-500 hover:text-rose-300 text-xs cursor-pointer"
+                    onClick={() => removeFromList(i)}
+                  >
+                    Remove
+                  </span>
+                  No. {l.index}
+                </p>
                 <HospitalPreviewList
                   data={{
                     showGrid,

@@ -108,7 +108,7 @@ const ListItem = ({ data, setter, k, checked, handleCheck }) => {
       </div>
       <div className="basis-1/2">
         <input
-          disabled={!checked}
+          disabled={!checked || k == 0 || k == 14}
           className="w-12 leading-tight border-[1px] border-indigo-300 bg-indigo-50 text-center rounded-md disabled:bg-zinc-200 disabled:text-zinc-400 disabled:border-none"
           value={data.quantity}
           onChange={(e) => setter(k, e)}

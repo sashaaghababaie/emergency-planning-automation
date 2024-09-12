@@ -13,7 +13,7 @@ export default function Boundry() {
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorrMsg] = useState("");
-  
+
   const storeBoundty = (width, height, inp_ent, outp_ent) => {
     const _boundry = { ...boundry };
 
@@ -44,13 +44,13 @@ export default function Boundry() {
   };
   return (
     <div>
-      <h1 className="font-bold border-b-[1px] border-black">Create Boundry</h1>
+      <h1 className="font-bold border-b-[1px] border-black">Create Boundary</h1>
       <p className="mt-2 text-sm">
         Follow the instructions, Press 'z' to undo.
       </p>
       <div className="p-2 flex justify-center items-center">
         {p5Props && (
-          <div id="canvas">
+          <div id="canvas" className="rounded-xl bg-white p-2">
             <NextReactP5Wrapper sketch={sketch} />
           </div>
         )}
@@ -61,7 +61,7 @@ export default function Boundry() {
           className="text-md p-2 bg-blue-700 text-white rounded-lg hover:bg-blue-400 duration-200 transition disabled:bg-zinc-400"
           onClick={checkBoundry}
         >
-          Check boundry
+          Check boundary
         </button>
       </div>
       <div className="h-12 text-xs mt-4">
@@ -71,8 +71,8 @@ export default function Boundry() {
           </p>
         )}
         {success && (
-          <p className="text-emerald-500 border border-emerald-500 p-2 rounded-lg">
-            Boundry is OK
+          <p className="text-center text-emerald-500 border border-emerald-500 p-2 rounded-lg">
+            Boundary is OK
           </p>
         )}
       </div>
@@ -116,7 +116,7 @@ export default function Boundry() {
         p.push();
         p.fill(0, 0, 255);
         p.text(
-          "Please select the first corner of the boundry",
+          "Please select the first corner of the boundary",
           marginX,
           p.height - 8
         );
@@ -128,7 +128,7 @@ export default function Boundry() {
         p.push();
         p.fill(0, 0, 255);
         p.text(
-          "Please select the opposite corner of the boundry",
+          "Please select the opposite corner of the boundary",
           marginX,
           p.height - 8
         );
@@ -143,14 +143,14 @@ export default function Boundry() {
       if (stage === 2) {
         p.push();
         p.fill(0, 0, 255);
-        p.text("Please choose the inpatient entrance", marginX, p.height - 8);
+        p.text("Please choose the Main entrance", marginX, p.height - 8);
         p.pop();
         getEntCursur(x, y);
       }
       if (stage === 3) {
         p.push();
         p.fill(0, 0, 255);
-        p.text("Please choose the outpatient entrance", marginX, p.height - 8);
+        p.text("Please choose the inpatient entrance", marginX, p.height - 8);
         p.pop();
         getEntCursur(inp_ent_pos.x, inp_ent_pos.y, false);
         getEntCursur(x, y);

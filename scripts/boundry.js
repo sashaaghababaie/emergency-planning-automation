@@ -43,7 +43,7 @@ export const draw = (p, _boundry, _boundryStyle = null, _entStyle = null) => {
   _boundryStyle ??= () => {
     p.noFill();
     p.stroke(0);
-    p.strokeWeight(0.1);
+    p.strokeWeight(0.35);
   };
 
   _entStyle ??= () => {

@@ -43,7 +43,7 @@ export default function Generate() {
           }`}
           onClick={() => setPage("boundry")}
         >
-          Boundry
+          Boundary
         </button>
         <button
           className={`rounded-lg p-2 basis-1/5 ${

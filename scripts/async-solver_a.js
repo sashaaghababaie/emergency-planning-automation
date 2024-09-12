@@ -19,12 +19,16 @@ const zone_props = {
   11: { zone_adj: ["8", "9", "10"], ensureNaturalLight: false },
   12: { zone_adj: ["14", "3", "4", "5", "6", "7"], ensureNaturalLight: false },
   13: { zone_adj: ["14", "3", "4", "5", "12"], ensureNaturalLight: false },
+  // 15: {
+  //   zone_adj: ["14", "3", "4", "5", "12", "13"],
+  //   ensureNaturalLight: false,
+  // },
+  // 16: {
+  //   zone_adj: ["14", "3", "4", "5", "12", "13", "15"],
+  //   ensureNaturalLight: false,
+  // },
   15: {
     zone_adj: ["14", "3", "4", "5", "12", "13"],
-    ensureNaturalLight: false,
-  },
-  16: {
-    zone_adj: ["14", "3", "4", "5", "12", "13", "15"],
     ensureNaturalLight: false,
   },
 };
@@ -49,6 +53,7 @@ export const async_solve_algorythm_a = async (
   // return new Promise((resolve, reject) => {
   let placed_arr = !_placed_arr || _step === 0 ? [] : _placed_arr;
   let log = [];
+  /// start Solver
   if (_step == 0) {
     let placed = {};
 
@@ -61,9 +66,13 @@ export const async_solve_algorythm_a = async (
       { message: `current step: ${_step}`, type: "info" },
       { message: "Entrances placed succesfully", type: "success" },
     ];
+
     log.forEach((l) => console.log(l.message));
+
     return { placed_arr, log };
-  } else if (_step == 1) {
+  }
+  ///
+  else if (_step == 1) {
     const availableArrangement = _availableArrangements[_step.toString()];
     let _placed_arr = [];
     placed_arr.forEach((_placed) => {
@@ -100,9 +109,12 @@ export const async_solve_algorythm_a = async (
         type: "info",
       },
     ];
+
     log.forEach((l) => console.log(l.message));
     placed_arr = _placed_arr;
-  } else if (_step > 1 && _step != 14) {
+  }
+  ///
+  else if (_step > 1 && _step != 14) {
     const availableArrangement = _availableArrangements[_step.toString()];
 
     const { _placed_arr, log: _log } = solveStep({

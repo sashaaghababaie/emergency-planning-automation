@@ -35,7 +35,7 @@ export const generateVirtualZone = (
       w: Transform.getZoneDimensions(_createdZone).w,
     };
 
-    return { ..._createdZone, vCor_1, vCor_2 };
+    return { ..._createdZone, vCor_1, vCor_2, zoneDir };
   }
 
   if (zoneDir === "V") {
@@ -53,7 +53,7 @@ export const generateVirtualZone = (
       w: _corridor_width,
     };
 
-    return { ..._createdZone, vCor_1, vCor_2 };
+    return { ..._createdZone, vCor_1, vCor_2, zoneDir };
   }
 };
 
