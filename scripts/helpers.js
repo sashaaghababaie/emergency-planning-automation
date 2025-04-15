@@ -48,7 +48,7 @@ export const rounded = (_n) => {
  * @returns {number[]}
  */
 export const toArray = (_cammaSepStr) => {
-  const arr = _cammaSepStr.split(",");
+  const arr = _cammaSepStr.toString().split(",");
   return arr.map((s) => Number(s.trim()));
 };
 

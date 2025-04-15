@@ -1,9 +1,10 @@
 import * as HELPERS from "@/scripts/helpers";
 
-async function readRefProgramAsObject() {
+function readRefProgramAsObject() {
   const program = structuredClone(PROGRAM);
   const programObj = {};
   program.forEach((p, i) => (programObj[`${i}`] = p));
+  console.log(programObj)
   return programObj;
 }
 
@@ -28,7 +29,7 @@ function cleanProgram(_programObj) {
 export async function initUserProgram(_program) {}
 
 export async function initBaseProgram() {
-  const program = await readRefProgramAsObject();
+  const program = readRefProgramAsObject();
   return cleanProgram(program);
 }
 
