@@ -5,7 +5,7 @@ export default async function Home() {
     <main className="animated-gif h-screen w-screen flex items-center p-10">
       <div>
         <h1 className="font-bold text-6xl text-white">EMERGENCY</h1>
-        <h1 className="font-bold text-6xl text-white">DESIGN</h1>
+        <h1 className="font-bold text-6xl text-white">PLANNING</h1>
         {/* <h1 className="font-semibold text-4xl mt-2 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500"> */}
         <h1 className="font-semibold text-4xl mt-2 bg-clip-text text-indigo-200/70">
           Automation
