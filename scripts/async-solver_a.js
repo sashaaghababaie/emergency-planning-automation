@@ -1,4 +1,4 @@
-"use server";
+
 import * as PLACING from "@/scripts/placing";
 import * as HELPERS from "@/scripts/helpers";
 import { Grid } from "@/scripts/grid";
