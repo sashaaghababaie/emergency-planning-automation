@@ -12,8 +12,8 @@ export default async function Home() {
         </h1>
         <div className="text-white/50">
           <h2 className="mt-12">By</h2>
-          <h2 className="mt-1">Arsham Aghababaie</h2>
-          <h2 className="mt-1">Mahdiye Pakdel</h2>
+          <h2 className="mt-1">Sasha Aghababaie</h2>
+          {/* <h2 className="mt-1">Mahdiye Pakdel</h2> */}
         </div>
         <div className="mt-12">
           <Link

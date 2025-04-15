@@ -5,6 +5,7 @@ import HospitalPreview from "@/components/hospital-preview";
 import HospitalPreviewList from "./hospital-preview-list";
 import { colors } from "@/scripts/colors";
 import DrawerRight from "./drawer";
+import { LuFilter } from "react-icons/lu";
 
 const scales = [0.5, 0.75, 1, 1.25, 1.5, 2];
 const colorKeys = Object.keys(colors);
@@ -227,9 +228,10 @@ export default function PreviewManager({ data }) {
               Random
             </button>
             <button
-              className="py-1 w-20 px-2 rounded-md bg-indigo-700 hover:bg-indigo-500 text-white"
+              className="flex items-center gap-2 py-1 w-20 px-2 rounded-md bg-indigo-700 hover:bg-indigo-500 text-white"
               onClick={() => setShowDrawer(true)}
             >
+              <LuFilter />
               Filter
             </button>
             <button
